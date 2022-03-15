@@ -1,8 +1,16 @@
-#FROM alpine:latest
-FROM madnight/alpine-wkhtmltopdf-builder
-MAINTAINER caotian@gmail.com
+FROM alpine:3.13
+MAINTAINER caotian
 
-# install necessary packages and compile MuPDF, clean up afterwards
+RUN apk add --update --no-cache \
+    libgcc libstdc++ libx11 glib libxrender libxext libintl \
+    ttf-dejavu ttf-droid ttf-freefont ttf-liberation ttf-ubuntu-font-family
+
+# On alpine static compiled patched qt headless wkhtmltopdf (46.8 MB).
+# Compilation took place in Travis CI with auto push to Docker Hub see
+# BUILD_LOG env. Checksum is printed in line 13685.
+COPY --from=madnight/alpine-wkhtmltopdf-builder:0.12.5-alpine3.10-606718795 \
+    /bin/wkhtmltopdf /bin/wkhtmltopdf
+
 RUN apk add --no-cache \
         git \
         make \
