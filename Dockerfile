@@ -170,9 +170,7 @@ RUN git clone --recursive git://git.ghostscript.com/mupdf.git \
         git \
         make \
         pkgconfig \
-        build-base
-
-    # Uninstall qt
+        build-base \
     && cd /tmp/wkhtmltopdf/qt \
     && make uninstall         \
     && make clean             \
