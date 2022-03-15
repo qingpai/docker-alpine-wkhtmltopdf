@@ -21,6 +21,7 @@ jobs:
       run: |
            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
            docker pull madnight/alpine-wkhtmltopdf-builder:0.12.5-alpine3.10 || true
-           docker build  --cache-from madnight/alpine-wkhtmltopdf-builder:0.12.5-alpine3.10 -f src/Dockerfile . -t madnight/alpine-wkhtmltopdf-builder:0.12.5-alpine3.10        
-           docker build -t qingpai/mutool:1.0.1-alpine .
-           docker push qingpai/mutool:1.0.1-alpine
+           docker pull qingpai/mutool:1.0.1 || true
+           docker build --cache-from madnight/alpine-wkhtmltopdf-builder:0.12.5-alpine3.10 -f src/Dockerfile . -t madnight/alpine-wkhtmltopdf-builder:0.12.5-alpine3.10        
+           docker build --cache-from qingpai/mutool:1.0.1 -t qingpai/mutool:1.0.1 .
+           docker push qingpai/mutool:1.0.1
