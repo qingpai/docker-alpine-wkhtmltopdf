@@ -160,7 +160,7 @@ RUN make install              \
 
 RUN sha256sum /bin/wkhtmltopdf
 
-git clone --recursive git://git.ghostscript.com/mupdf.git \
+RUN git clone --recursive git://git.ghostscript.com/mupdf.git \
         && cd mupdf \
         && git submodule update --init \
         && make HAVE_X11=no HAVE_GLUT=no prefix=/usr/local install \
