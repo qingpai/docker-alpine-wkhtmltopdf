@@ -16,13 +16,14 @@ RUN apk add --no-cache                          \
     libssl1.1                                   \
     ca-certificates                             \
     fontconfig                                  \
+    pkgconfig                                   \
     freetype                                    \
     ttf-dejavu                                  \
     ttf-droid                                   \
     ttf-freefont                                \
     ttf-liberation                              \
     ttf-ubuntu-font-family                      \
-    && apk add --no-cache --virtual .build-deps \
+    && apk add --no-cache --virtual .build-deps build-base \
     g++                                         \
     git                                         \
     gtk+                                        \
@@ -156,6 +157,21 @@ RUN make install              \
     && make clean             \
     && make distclean         \
                               \
+
+RUN sha256sum /bin/wkhtmltopdf
+
+git clone --recursive git://git.ghostscript.com/mupdf.git \
+        && cd mupdf \
+        && git submodule update --init \
+        && make HAVE_X11=no HAVE_GLUT=no prefix=/usr/local install \
+        && cd / \
+        && rm -r mupdf \
+        && apk del \
+        git \
+        make \
+        pkgconfig \
+        build-base
+
     # Uninstall qt
     && cd /tmp/wkhtmltopdf/qt \
     && make uninstall         \
@@ -165,5 +181,3 @@ RUN make install              \
     # Clean up when done
     && rm -rf /tmp/*          \
     && apk del .build-deps
-
-RUN sha256sum /bin/wkhtmltopdf
