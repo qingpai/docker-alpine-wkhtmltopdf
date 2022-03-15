@@ -1,5 +1,5 @@
 #FROM alpine:latest
-FROM madnight/docker-alpine-wkhtmltopdf
+FROM madnight/alpine-wkhtmltopdf-builder
 MAINTAINER caotian@gmail.com
 
 # install necessary packages and compile MuPDF, clean up afterwards
